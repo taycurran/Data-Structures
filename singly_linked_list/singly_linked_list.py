@@ -44,6 +44,22 @@ class LinkedList:
         self.head = None
         # reference to the tail of the list
         self.tail = None
+    
+    def contains(self, value):
+        if not self.head:
+            return False
+        else:
+            cont = []
+            current_node = self.head
+            while current_node.next_node:
+                cont.append(current_node.value)
+                current_node = current_node.next_node
+            cont.append(self.tail.value)
+            if value in cont:
+                return True
+            else:
+                return False
+
     def add_to_tail(self, value):
         # wrap the input value in a node
         new_node = Node(value)#, None)
