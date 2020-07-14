@@ -13,33 +13,68 @@ return elements in First In First Out order.
 Stretch: What if you could only use instances of your Stack class to implement the Queue?
          What would that look like? How many Stacks would you need? Try it!
 """
+from sing_linklist import Node, LinkedList
 class Queue:
     def __init__(self):
         self.size = 0
         # self.storage = ?
+        self.head = None
+        self.tail = None
     
     def __len__(self):
-        pass
+        if not self.head:
+            self.size = 0
+            return self.size
+        else:
+            cont = []
+            current_node = self.head
+            while current_node.next_node:
+                cont.append(current_node.value)
+                current_node = current_node.next_node
+            cont.append(self.tail.value)  
+            self.size = len(cont)
+            return self.size
 
     def enqueue(self, value):
-        pass
+        if not self.head:
+            new_node = Node(value, None)
+            self.head = new_node
+            self.tail = new_node
+        else:
+            orig_head = self.head
+            self.head = Node(value, orig_head)
 
     def dequeue(self):
-        pass
+        if not self.head:
+            return None
+        
+        if self.head is self.tail:
+            value = self.head.get_value()
+            self.head = None
+            self.tail = None
+            return value
 
+        current = self.head
 
-class Queue:
-    def __init__(self):
-        self.items = []
+        while current.get_next() is not self.tail:
+            current = current.get_next()
 
-    def isEmpty(self):
-        return self.items == []
+        value = self.tail.get_value()
+        self.tail = current
+        self.tail.set_next(None)
+        return value
+# class Queue:
+#     def __init__(self):
+#         self.items = []
 
-    def enqueue(self, item):
-        self.items.insert(0,item)
+#     def isEmpty(self):
+#         return self.items == []
 
-    def dequeue(self):
-        return self.items.pop()
+#     def enqueue(self, item):
+#         self.items.insert(0,item)
 
-    def size(self):
-        return len(self.items)
+#     def dequeue(self):
+#         return self.items.pop()
+
+#     def size(self):
+#         return len(self.items)
