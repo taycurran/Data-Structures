@@ -152,15 +152,30 @@ class DoublyLinkedList:
     Removes the input node from its current spot in the 
     List and inserts it as the new tail node of the List.
     """
+    # TODO Correct move_to_front with Fixed Logic Shown Above
     def move_to_end(self, node):
-        if self.tail:
-            # Make Tail not Tail
-            self.tail.next = node
-            self.tail.prev = node.prev
-            node.prev = self.tail
-            node.next = None
-            self.tail = node
-
+        if len(self) > 0:
+            if self.head is node:
+                node.next.prev = None
+                self.head = node.next
+                # Reconfigure Tail N+P
+                self.tail.next = node
+                # Reconfigure Node
+                node.prev = self.tail
+                node.next = None
+                self.tail = node
+            elif self.tail is node:
+                pass
+            else:
+                # Reconfigure Orig Node Prev
+                node.prev.next = node.next
+                node.next.prev = node.prev
+                # Reconfigure Tail N+P
+                self.tail.next = node
+                # Reconfigure Node
+                node.prev = self.tail
+                node.next = None
+                self.tail = node
         else:
             self.head = node
             self.tail = node
@@ -170,12 +185,22 @@ class DoublyLinkedList:
     Deletes the input node from the List, preserving the 
     order of the other elements of the List.
     """
+    # TODO: This could be more robust
     def delete(self, node):
-        if node.next:
-            node.next.prev = node.prev
-        if node.prev:
-            node.prev.next = node.next
-        self.length -= 1
+        if self.head:
+            val = node.value
+            if self.head is node:
+                self.remove_from_head()
+            elif self.tail is node:
+                self.remove_from_tail()
+            else:
+                node.next.prev = node.prev
+                node.prev.next = node.next
+            #self.length = self.length - 1
+            return val
+        else:
+            return None
+
         
 
     """
@@ -183,4 +208,12 @@ class DoublyLinkedList:
     in the List.
     """
     def get_max(self):
-        pass
+        if not self.head:
+            return None
+        max_value = self.head.value
+        current = self.head.next
+        while current:
+            if current.value > max_value:
+                max_value = current.value
+            current = current.next
+        return max_value
