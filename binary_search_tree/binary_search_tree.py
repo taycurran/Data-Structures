@@ -10,27 +10,71 @@ This part of the project comprises two days:
    on the BSTNode class.
 """
 class BSTNode:
-    def __init__(self, value):
+    def __init__(self, value): 
         self.value = value
         self.left = None
         self.right = None
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        # Case 1: Value is < self.value
+        if value < self.value:
+            # If there is no left child, insert here
+            if self.left is None:
+                self.left = BSTNode(value)
+            else:
+                # Repeat the process on left subtree
+                self.left.insert(value)
+        # Case 2: Value is >= self.value
+        elif value >= self.value:
+            # If there is no right child, insert here
+            if self.right is None:
+                self.right = BSTNode(value)
+            else:
+                # Repeat the process on left subtree
+                self.right.insert(value)
+        
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        if self.value is None:
+            return None
+        else:
+            if self.value == target:
+                return True
+            elif target < self.value:
+                if self.left is None:
+                    return False
+                else:
+                    return self.left.contains(target)
+            else:
+                if self.right is None:
+                    return False
+                else:
+                    return self.right.contains(target)
+
+                     
 
     # Return the maximum value found in the tree
     def get_max(self):
-        pass
+        if self.right is None:
+            return self.value
+        else:
+            return self.right.get_max()
+        
 
     # Call the function `fn` on the value of each node
     def for_each(self, fn):
-        pass
+        each = []
+        each.append(fn(self.value))
+        if self.left:
+            each.append(self.left.for_each(fn))
+        if self.right:
+            each.append(self.right.for_each(fn))
+        return each
+        
+        
 
     # Part 2 -----------------------
 
